@@ -5,7 +5,8 @@
 *
 * A php class to check for a SEOmoz/FollowerWonk Social Authority score.
 * The class takes a twitter screen name, Access ID and Secret Key and
-* returns a social authority score
+* a string representing your Application's name and returns a
+* social authority score from follower wonk.
 *
 *
 * See: https://github.com/seomoz/Social-Authority-SDK
@@ -19,14 +20,21 @@
 */
 
 
+
 if(!empty($_REQUEST['screen_name'])) {
 
-  $screen_name = $_REQUEST['screen_name'];
+	// A TWITTER SCREEN NAME
+	$screen_name = $_REQUEST['screen_name'];
+	
+	// THE ACCESS ID AND SECRET KEY FROM https://followerwonk.com/social-authority
 	$accessID = "<PUT YOUR ACCCESS ID HERE>";
 	$secretKey = "<PUT YOUR SECRET KEY HERE>";
 	
+	// CHANGE THIS TO SOMETHING SPECIFIC TO IDENTIFY YOUR USER AGENT
+	$yourAppName = "Followerwonk API call from socialAuthority v1.0 php class";
 	
-		$authObj = new socialAuthority($screen_name, $accessID, $secretKey);
+	
+		$authObj = new socialAuthority($screen_name, $accessID, $secretKey, $yourAppName);
 		$wonkResponse = $authObj->getResponse();
 		
 		$social_authority = number_format((float)$wonkResponse['response']['social_authority'], 2, '.', '');
@@ -34,9 +42,15 @@ if(!empty($_REQUEST['screen_name'])) {
 		$screen_name = $wonkResponse['response']['screen_name'];
 		
 		if ($wonkResponse['result'] != "OK") {
+
+			// AN ERROR OCCURRED
 			echo "An error has occurred: " . $wonkResponse['response']['message'];
+
 		} else {
+
+			// IF ALL GOES WELL $social_authority WILL HAVE YOUR SCORE
 			echo '<a href="https://twitter.com/' . $screen_name . '">' . $screen_name  .'</a> has a social authority score of ' . $social_authority;
+
 		}
 		
 } else {
@@ -50,11 +64,13 @@ class socialAuthority {
 	protected $screen_name;
 	protected $accessID;
 	protected $secretKey;
+	protected $yourAppName;
 	
 	function __construct($screen_name, $accessID, $secretKey) {
 		$this->screen_name = $screen_name;
 		$this->accessID = $accessID;
 		$this->secretKey = $secretKey;
+		$this->yourAppName = $yourAppName;
 
 		$this->timeStamp =  gmmktime() + 300;
 		$this->wonkURL = "https://api.followerwonk.com/social-authority";
@@ -75,7 +91,7 @@ class socialAuthority {
 			try {
 				$curl = curl_init();  
 				curl_setopt($curl, CURLOPT_URL, $urlToFetch);
-				curl_setopt($curl, CURLOPT_USERAGENT, "Followerwonk API call from Knowem.com");
+				curl_setopt($curl, CURLOPT_USERAGENT, $this->yourAppName);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		  		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1 );
 		  		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
