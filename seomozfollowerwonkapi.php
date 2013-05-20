@@ -106,7 +106,7 @@ class socialAuthority {
 					
 					if ($httpResponseCode != "200") {
 						// ERROR OF SOME KIND
-						throw new Exception("Response Code is " . $httpResponseCode . " " . $this-> _name_response($httpResponseCode) . ", JSON response is " . print_r(json_last_error(), true));
+						throw new Exception("Response Code is " . $httpResponseCode . " " . $this-> _name_response($httpResponseCode) );
 					} else {
 						// DECODE JSON INTO ARRAY
 						$resultArray = json_decode($output, true);
