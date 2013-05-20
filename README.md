@@ -5,7 +5,9 @@ socialAuthority v1.0 php class
 
 May 20, 2013
 
-A php class to check for a SEOmoz/FollowerWonk Social Authority score. The class takes a twitter screen name, Access ID and Secret Key and returns a social authority score
+A php class to check for a SEOmoz/FollowerWonk Social Authority score. 
+
+The class takes a twitter screen name, Access ID and Secret Key and  a string representing your Application's name and returns a social authority score from follower wonk.
 
 See: https://github.com/seomoz/Social-Authority-SDK
 
