@@ -37,9 +37,6 @@ if(!empty($_REQUEST['screen_name'])) {
 		$authObj = new socialAuthority($screen_name, $accessID, $secretKey, $yourAppName);
 		$wonkResponse = $authObj->getResponse();
 		
-		$social_authority = number_format((float)$wonkResponse['response']['social_authority'], 2, '.', '');
-		$user_id = $wonkResponse['response']['user_id'];
-		$screen_name = $wonkResponse['response']['screen_name'];
 		
 		if ($wonkResponse['result'] != "OK") {
 
@@ -48,6 +45,9 @@ if(!empty($_REQUEST['screen_name'])) {
 
 		} else {
 
+			$social_authority = number_format((float)$wonkResponse['response']['social_authority'], 2, '.', '');
+			$user_id = $wonkResponse['response']['user_id'];
+			$screen_name = $wonkResponse['response']['screen_name'];
 			// IF ALL GOES WELL $social_authority WILL HAVE YOUR SCORE
 			echo '<a href="https://twitter.com/' . $screen_name . '">' . $screen_name  .'</a> has a social authority score of ' . $social_authority;
 
@@ -66,7 +66,7 @@ class socialAuthority {
 	protected $secretKey;
 	protected $yourAppName;
 	
-	function __construct($screen_name, $accessID, $secretKey) {
+	function __construct($screen_name, $accessID, $secretKey, $yourAppName) {
 		$this->screen_name = $screen_name;
 		$this->accessID = $accessID;
 		$this->secretKey = $secretKey;
